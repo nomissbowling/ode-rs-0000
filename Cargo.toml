@@ -1,8 +1,19 @@
 [package]
 name = "ode-rs-0000"
-version = "0.1.0"
+version = "0.1.1" # change with html_root_url in main.rs
 edition = "2021"
 authors = ["nomissbowling <nomissbowling@yahoo.co.jp>"]
+
+description = "OYK sample for ODE (Open Dynamics Engine)"
+keywords = ["ode", "dynamics", "kinetics", "physics", "3D"]
+categories = ["simulation", "rendering", "science", "external-ffi-bindings"]
+license = "MIT"
+
+documentation = "https://docs.rs/ode-rs-0000/"
+homepage = "https://crates.io/crates/ode-rs-0000"
+repository = "https://github.com/nomissbowling/ode-rs-0000"
+
+readme = "README.md"
 
 #build = "build.rs"
 
@@ -12,12 +23,12 @@ authors = ["nomissbowling <nomissbowling@yahoo.co.jp>"]
 # lazy_static = "1.4.0"
 # once_cell = "1.17.1"
 
-asciiz = { version = "0.1.0" }
-# asciiz = { version = "0.1.0", git = "https://github.com/nomissbowling/asciiz.git", package = "asciiz" }
+asciiz = { version = "0.1" }
+# asciiz = { version = "0.1", git = "https://github.com/nomissbowling/asciiz.git", package = "asciiz" }
 # asciiz = { path = "../asciiz" } # libasciiz.rlib asciiz::u8z
 
-oyk = { version = "0.1.0" }
-# oyk = { version = "0.1.0", git = "https://github.com/nomissbowling/oyk.git", package = "oyk" }
+oyk = { version = "0.1" }
+# oyk = { version = "0.1", git = "https://github.com/nomissbowling/oyk.git", package = "oyk" }
 # oyk = { path = "../oyk" } # liboyk.rlib oyk::ode
 
 [build-dependencies]
