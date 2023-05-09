@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.2.3")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.2.4")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -16,9 +16,6 @@
 use oyk::ode::*;
 
 fn start_callback(rode: &mut ODE) {
-  let cam = &mut rode.cams[0];
-  cam.pos = vec![4.0, 3.0, 5.0, 0.0];
-  cam.ypr = vec![-150.0, -30.0, 3.0, 0.0];
   let t_delta = &mut rode.t_delta;
   *t_delta = 0.002;
   let obgs = &mut rode.obgs;
@@ -41,16 +38,9 @@ fn step_callback(rode: &mut ODE, pause: i32) {
 
 fn command_callback(rode: &mut ODE, cmd: i32) {
   match cmd as u8 as char {
-    'r' => {{
-      ODE::clear_obgs();
-      ODE::clear_contactgroup();
-      start_callback(rode);
-    }},
-    'v' => {{
-      let cam = &mut rode.cams[0];
-      cam.pos = vec![14.0 - cam.pos[0], 13.0 - cam.pos[1], 5.0, 0.0];
-      cam.ypr = vec![-150.0, -30.0 - cam.ypr[1], 3.0, 0.0];
-    }},
+    'a' => {
+      println!("anything to do");
+    },
     _ => {}
   }
   default_command_callback(rode, cmd);
