@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.3.0")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.3.1")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -29,11 +29,11 @@ fn start_callback(rode: &mut ODE) {
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
   obgs.push(ODE::mk_sphere(0.1, 1.0, &c, &p));
-  ODE::default_start_callback(rode);
+  rode.default_start_callback();
 }
 
 fn step_callback(rode: &mut ODE, pause: i32) {
-  ODE::default_step_callback(rode, pause);
+  rode.default_step_callback(pause);
 }
 
 fn command_callback(rode: &mut ODE, cmd: i32) {
@@ -43,7 +43,7 @@ fn command_callback(rode: &mut ODE, cmd: i32) {
     },
     _ => {}
   }
-  ODE::default_command_callback(rode, cmd);
+  rode.default_command_callback(cmd);
 }
 
 fn main() {
