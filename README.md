@@ -48,14 +48,13 @@ Samples
 ```rust
 use oyk::ode::*;
 
+use impl_sim::{impl_sim_fn, impl_sim_derive};
+
 pub struct SimApp {
 }
 
+#[impl_sim_derive(draw_objects, near_callback, step_callback, stop_callback)]
 impl Sim for SimApp {
-
-fn draw_objects(&mut self) {
-  self.super_mut().draw_objects();
-}
 
 fn start_callback(&mut self) {
   let t_delta = &mut self.super_mut().t_delta;
@@ -74,14 +73,6 @@ fn start_callback(&mut self) {
   self.super_mut().start_callback();
 }
 
-fn near_callback(&mut self, o1: dGeomID, o2: dGeomID) {
-  self.super_mut().near_callback(o1, o2);
-}
-
-fn step_callback(&mut self, pause: i32) {
-  self.super_mut().step_callback(pause);
-}
-
 fn command_callback(&mut self, cmd: i32) {
   match cmd as u8 as char {
     'a' => {
@@ -90,10 +81,6 @@ fn command_callback(&mut self, cmd: i32) {
     _ => {}
   }
   self.super_mut().command_callback(cmd);
-}
-
-fn stop_callback(&mut self) {
-  self.super_mut().stop_callback();
 }
 
 } // impl Sim for SimApp
