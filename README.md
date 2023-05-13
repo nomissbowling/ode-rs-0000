@@ -89,11 +89,11 @@ fn start_callback(&mut self) {
   for i in 0..16 {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
-    rode.mk_sphere(format!("{:08X}", i), m, r, &c, &p);
+    rode.mk_sphere(format!("ball_{:08X}", i), m, r, &c, &p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
-  rode.mk_sphere("ball".to_string(), 0.1, 1.0, &c, &p);
+  rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, &c, &p);
   rode.start_callback();
 }
 
