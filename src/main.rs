@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.5.1")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.5.2")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -28,12 +28,18 @@ pub fn objs_info(&mut self, f: bool, s: &str) {
   let obgs = &rode.obgs;
   let l = obgs.len();
   if f || (l != self.cnt) {
-    println!("obgs: {} in {}", self.cnt, s);
-    for (k, v) in &rode.mbgs {
-      println!("{}: {:?}", k, obgs[*v].col);
-      // println!("{}: {:?}", k, rode.find(k.to_string()).col); // same
-    }
     self.cnt = l;
+    println!("obgs: {} in {}", self.cnt, s);
+    let rode = self.super_get(); // must re get because borrow later self.cnt
+    for (k, v) in &rode.mbgs {
+      println!("{}: {:018p} {:?}", k, *v, rode.obgs[v].col); // same as below
+/*
+      match rode.find(k.to_string()) {
+        Err(e) => { println!("{}", e.to_string()); },
+        Ok(obg) => { println!("{}: {:018p} {:?}", k, obg.body(), obg.col); }
+      }
+*/
+    }
   }
 }
 
@@ -72,7 +78,19 @@ fn step_callback(&mut self, pause: i32) {
 fn command_callback(&mut self, cmd: i32) {
   match cmd as u8 as char {
     'o' => {
-      println!("{:?}", self.super_mut().find_mut("ball".to_string()).col);
+      let k = "ball_big";
+      match self.super_mut().find_mut(k.to_string()) {
+        Err(e) => { println!("{}", e.to_string()); },
+        Ok(obg) => {
+          println!("{}: {:018p} {:?}", k, obg.body(), obg.col);
+          println!(" pos: {:?}", obg.pos());
+          obg.rot_disp(" rot: ");
+          let pos: &mut [dReal] = obg.pos_(); // re get mut
+          pos[0] += 0.2;
+          pos[1] += 0.2;
+          pos[2] = 2.0;
+        }
+      }
     },
     'a' => {
       self.objs_info(true, "cmd");
