@@ -68,7 +68,7 @@ pub fn objs_info(&mut self, f: bool, s: &str) {
       println!("{}: {:018p} {:?}", k, *v, rode.obgs[v].col); // same as below
 /*
       match rode.find(k.to_string()) {
-        Err(e) => { println!("{}", e.to_string()); },
+        Err(e) => { println!("{}", e); },
         Ok(obg) => { println!("{}: {:018p} {:?}", k, obg.body(), obg.col); }
       }
 */
@@ -113,15 +113,15 @@ fn command_callback(&mut self, cmd: i32) {
     'o' => {
       let k = "ball_big";
       match self.super_mut().find_mut(k.to_string()) {
-        Err(e) => { println!("{}", e.to_string()); },
+        Err(e) => { println!("{}", e); },
         Ok(obg) => {
           println!("{}: {:018p} {:?}", k, obg.body(), obg.col);
-          println!(" pos: {:?}", obg.pos());
-          obg.rot_disp(" rot: ");
+          println!(" pos: {}", obg.pos_vec());
+          println!(" rot: {}", obg.rot_mat3());
           let pos: &mut [dReal] = obg.pos_(); // re get mut
           pos[0] += 0.2;
           pos[1] += 0.2;
-          pos[2] = 2.0;
+          pos[2] = 5.0;
         }
       }
     },
