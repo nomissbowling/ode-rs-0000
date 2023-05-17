@@ -46,6 +46,7 @@ Samples
 -------
 
 ```rust
+use oyk::colors::*;
 use oyk::ode::*;
 
 use impl_sim::{impl_sim_fn, impl_sim_derive};
