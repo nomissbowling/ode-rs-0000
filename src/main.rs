@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.5.6")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.5.8")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -24,23 +24,37 @@ pub struct SimApp {
 
 impl SimApp {
 
+pub fn objs_mut(&mut self, f: bool, s: &str) {
+  let rode = self.super_mut();
+  if f || rode.is_modified(false) {
+    self.cnt = rode.num();
+    println!("obgs: {} in {}", self.cnt, s);
+    let rode = self.super_get(); // must re get
+    let ids = rode.each_id(|_key, _id| { true }); // lambda may return false
+    for id in ids {
+      if id == 0 as dBodyID { continue; } // skipped by result of each_id
+      let rode = self.super_mut(); // must re get
+      match rode.get_mut(id) {
+        Err(e) => { println!("{}", e); },
+        Ok(obg) => {
+          if obg.key == "ball_big" { obg.col = [1.0, 0.0, 0.0, 0.8] }
+          println!("{}: {:018p} {:?}", obg.key, id, obg.col);
+        }
+      }
+    }
+  }
+}
+
 pub fn objs_info(&mut self, f: bool, s: &str) {
-  let rode = self.super_get();
-  let obgs = &rode.obgs;
-  let l = obgs.len();
-  if f || (l != self.cnt) {
-    self.cnt = l;
+  let rode = self.super_mut();
+  if f || rode.is_modified(false) {
+    self.cnt = rode.num();
     println!("obgs: {} in {}", self.cnt, s);
     let rode = self.super_get(); // must re get because borrow later self.cnt
-    for (k, v) in &rode.mbgs {
-      println!("{}: {:018p} {:?}", k, *v, rode.obgs[v].col); // same as below
-/*
-      match rode.find(k.to_string()) {
-        Err(e) => { println!("{}", e); },
-        Ok(obg) => { println!("{}: {:018p} {:?}", k, obg.body(), obg.col); }
-      }
-*/
-    }
+    rode.each(|key, id, obg| {
+      println!("{}: {:018p} {:?}", key, id, obg.col);
+      true
+    });
   }
 }
 
@@ -92,6 +106,9 @@ fn command_callback(&mut self, cmd: i32) {
           pos[2] = 5.0;
         }
       }
+    },
+    'b' => {
+      self.objs_mut(true, "mut");
     },
     'a' => {
       self.objs_info(true, "cmd");
