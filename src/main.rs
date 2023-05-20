@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.5.8")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.6.0")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -37,8 +37,16 @@ pub fn objs_mut(&mut self, f: bool, s: &str) {
       match rode.get_mut(id) {
         Err(e) => { println!("{}", e); },
         Ok(obg) => {
-          if obg.key == "ball_big" { obg.col = [1.0, 0.0, 0.0, 0.8] }
+          // This is test code using each_id with get_mut, but high cost.
+          // Better to use self.super_mut().find_mut("ball_big".to_string())
+          if obg.key == "ball_big" { obg.col = [1.0, 0.0, 0.0, 0.8]; }
           println!("{}: {:018p} {:?}", obg.key, id, obg.col);
+          // get_tcm_mut must be after accessing to obg members
+          if obg.key == "ball_big" {
+            let geom = obg.geom(); // must assign before get_tcm_mut
+            let tcm = rode.get_tcm_mut(geom).unwrap(); // must care ok_or
+            tcm.col = [1.0, 0.0, 0.0, 0.8];
+          }
         }
       }
     }
@@ -60,7 +68,7 @@ pub fn objs_info(&mut self, f: bool, s: &str) {
 
 }
 
-#[impl_sim_derive(near_callback, stop_callback)]
+#[impl_sim_derive(draw_geom, near_callback, stop_callback)]
 impl Sim for SimApp {
 
 fn draw_objects(&mut self) {
@@ -77,11 +85,11 @@ fn start_callback(&mut self) {
   for i in 0..16 {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
-    rode.mk_sphere(format!("ball_{:08X}", i), m, r, &c, &p);
+    rode.mk_sphere(format!("ball_{:08X}", i), m, r, c, &p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
-  rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, &c, &p);
+  rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, c, &p);
   rode.start_callback();
 }
 
