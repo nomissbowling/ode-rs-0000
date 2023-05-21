@@ -118,11 +118,31 @@ fn start_callback(&mut self) {
   for i in 0..16 {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
-    rode.mk_sphere(format!("ball_{:08X}", i), m, r, c, &p);
+    let body = rode.mk_sphere(format!("ball_{:08X}", i), m, r, c);
+    rode.get_mut(body).expect("fail reg").set_pos(p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
-  rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, c, &p);
+  let body = rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, c);
+  rode.get_mut(body).expect("fail reg").set_pos(p);
+  let dm: dReal = 0.1;
+  let lxyz: dVector3 = [10.0, 10.0, 0.05, 0.0];
+  let n: dVector4 = [0.0, 0.0, 1.0, 0.0];
+  let col: dVector4 = vec4_from_u32(COLORS[0]);
+  let pos: dVector3 = [-5.0, -5.0, 5.0, 0.0];
+  let body = rode.mk_plane("plane".to_string(), dm, &lxyz, &n, col);
+  rode.get_mut(body).expect("fail reg").set_pos(pos)
+    // .set_rot(dMatrix3::from_z_axis([0.7, 0.7, 0.0]));
+    // .set_rot(dMatrix3::from_2_axes([-0.7, 0.7, 0.0], [0.7, 0.7, 0.0]));
+    // .set_rot(dMatrix3::from_euler_angles(0.78, 0.78, 0.78));
+    // .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], 0.78));
+    // .set_rot(dMatrix3::new());
+    // .set_rot(dMatrix3::from_Q(dQuaternion::new()));
+    // .set_rot(dQuaternion::to_R(dQuaternion::new()));
+    // .set_quaternion(dMatrix3::to_Q(dMatrix3::new()));
+    // .set_quaternion(dQuaternion::from_R(dMatrix3::new()));
+    // .set_quaternion(dQuaternion::new());
+    .set_quaternion(dQuaternion::from_axis_and_angle([1.0, 1.0, 0.0], 0.78));
   rode.start_callback();
 }
 
