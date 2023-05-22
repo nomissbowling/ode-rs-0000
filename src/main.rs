@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.6.1")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.6.3")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -98,6 +98,7 @@ fn start_callback(&mut self) {
   let col: dVector4 = vec4_from_u32(COLORS[0]);
   let pos: dVector3 = [-5.0, -5.0, 5.0, 0.0];
   let body = rode.mk_plane("plane".to_string(), dm, &lxyz, &n, col);
+  let q = dQuaternion::from_axis_and_angle([1.0, 1.0, 0.0], 0.78);
   rode.get_mut(body).expect("fail reg").set_pos(pos)
     // .set_rot(dMatrix3::from_z_axis([0.7, 0.7, 0.0]));
     // .set_rot(dMatrix3::from_2_axes([-0.7, 0.7, 0.0], [0.7, 0.7, 0.0]));
@@ -105,11 +106,12 @@ fn start_callback(&mut self) {
     // .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], 0.78));
     // .set_rot(dMatrix3::new());
     // .set_rot(dMatrix3::from_Q(dQuaternion::new()));
-    // .set_rot(dQuaternion::to_R(dQuaternion::new()));
-    // .set_quaternion(dMatrix3::to_Q(dMatrix3::new()));
+    // .set_rot(dQuaternion::new().to_R());
+    // .set_quaternion(dMatrix3::new().to_Q());
     // .set_quaternion(dQuaternion::from_R(dMatrix3::new()));
     // .set_quaternion(dQuaternion::new());
-    .set_quaternion(dQuaternion::from_axis_and_angle([1.0, 1.0, 0.0], 0.78));
+    // .set_quaternion(q);
+    .set_rot(q.to_R());
   rode.start_callback();
 }
 
