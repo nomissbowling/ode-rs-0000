@@ -118,19 +118,22 @@ fn start_callback(&mut self) {
   for i in 0..16 {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
-    let body = rode.mk_sphere(format!("ball_{:08X}", i), m, r, c);
+    let mib = Box::new(MetaSphere::new(m, r, 0, c));
+    let body = rode.mk_sphere(format!("ball_{:08X}", i), mib);
     rode.get_mut(body).expect("fail reg").set_pos(p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
-  let body = rode.mk_sphere("ball_big".to_string(), 0.1, 1.0, c);
+  let mib = Box::new(MetaSphere::new(0.1, 1.0, 0, c));
+  let body = rode.mk_sphere("ball_big".to_string(), mib);
   rode.get_mut(body).expect("fail reg").set_pos(p);
   let dm: dReal = 0.1;
   let lxyz: dVector3 = [10.0, 10.0, 0.05, 0.0];
-  let n: dVector4 = [0.0, 0.0, 1.0, 0.0];
+  let norm: dVector4 = [0.0, 0.0, 1.0, 0.0];
   let col: dVector4 = vec4_from_u32(COLORS[0]);
   let pos: dVector3 = [-5.0, -5.0, 5.0, 0.0];
-  let body = rode.mk_plane("plane".to_string(), dm, &lxyz, &n, col);
+  let mip = Box::new(MetaPlane::new(dm, lxyz, norm, 0, col));
+  let body = rode.mk_plane("plane".to_string(), mip);
   let q = dQuaternion::from_axis_and_angle([1.0, 1.0, 0.0], 0.78);
   rode.get_mut(body).expect("fail reg").set_pos(pos)
     // .set_rot(dMatrix3::from_z_axis([0.7, 0.7, 0.0]));
