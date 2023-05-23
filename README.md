@@ -49,6 +49,7 @@ Samples
 use oyk::colors::*;
 use oyk::ode::*;
 
+use std::ffi::{c_void}; // used by impl_sim_fn
 use impl_sim::{impl_sim_fn, impl_sim_derive};
 
 pub struct SimApp {
