@@ -119,36 +119,36 @@ fn start_callback(&mut self) {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
     let mib = Box::new(MetaSphere::new(m, r, 1.0, 0, c));
-    let body = rode.mk_sphere(format!("ball_{:08X}", i), mib);
+    let body = rode.creator(format!("ball_{:08X}", i), mib);
     rode.get_mut(body).expect("fail reg").set_pos(p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
   let mib = Box::new(MetaSphere::new(0.1, 1.0, 0.5, 0, c));
-  let body = rode.mk_sphere("ball_big".to_string(), mib);
+  let body = rode.creator("ball_big".to_string(), mib);
   rode.get_mut(body).expect("fail reg").set_pos(p);
   let mi = Box::new(MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0], 0.8,
     0, [0.0, 1.0, 1.0, 0.8]));
-  let body = rode.mk_box("box_big".to_string(), mi);
+  let body = rode.creator("box_big".to_string(), mi);
   rode.get_mut(body).expect("fail reg").set_pos([-5.0, 5.0, 2.0, 1.0]);
   let micap_0 = Box::new(MetaCapsule::new(0.1, 0.5, 16.0, 0.5,
     0, [0.0, 1.0, 0.0, 0.8]));
-  let body = rode.mk_capsule("capsule_big".to_string(), micap_0);
+  let body = rode.creator("capsule_big".to_string(), micap_0);
   rode.get_mut(body).expect("fail reg").set_pos([-8.6, 0.0, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], 1.57));
   let micyl_0 = Box::new(MetaCylinder::new(0.1, 0.5, 16.0, 0.5,
     0, [1.0, 0.0, 1.0, 0.8]));
-  let body = rode.mk_cylinder("cylinder_big".to_string(), micyl_0);
+  let body = rode.creator("cylinder_big".to_string(), micyl_0);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, 8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], 1.57));
   let micap_1 = Box::new(MetaCapsule::new(0.1, 0.5, 16.0, 0.5,
     0, [0.0, 0.0, 1.0, 0.8]));
-  let body = rode.mk_capsule("capsule_big".to_string(), micap_1);
+  let body = rode.creator("capsule_big".to_string(), micap_1);
   rode.get_mut(body).expect("fail reg").set_pos([8.6, 0.0, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], 1.57));
   let micyl_1 = Box::new(MetaCylinder::new(0.1, 0.5, 16.0, 0.5,
     0, [0.0, 1.0, 1.0, 0.8]));
-  let body = rode.mk_cylinder("cylinder_big".to_string(), micyl_1);
+  let body = rode.creator("cylinder_big".to_string(), micyl_1);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, -8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], 1.57));
   let dm: dReal = 0.1;
@@ -157,7 +157,7 @@ fn start_callback(&mut self) {
   let col: dVector4 = vec4_from_u32(COLORS[0]);
   let pos: dVector3 = [-5.0, -5.0, 5.0, 0.0];
   let mip = Box::new(MetaPlane::new(dm, lxyz, norm, 1.0, 0, col));
-  let body = rode.mk_plane("plane".to_string(), mip);
+  let body = rode.creator("plane".to_string(), mip);
   let q = dQuaternion::from_axis_and_angle([1.0, 1.0, 0.0], 0.78);
   rode.get_mut(body).expect("fail reg").set_pos(pos)
     // .set_rot(dMatrix3::from_z_axis([0.7, 0.7, 0.0]));
