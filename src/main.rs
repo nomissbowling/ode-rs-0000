@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.0")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.1")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -86,53 +86,52 @@ fn start_callback(&mut self) {
   for i in 0..16 {
     let c: dVector4 = vec4_from_u32(COLORS[i]);
     let p: dVector3 = [(i%4) as dReal - 1.5, (i/4) as dReal - 1.5, 2.0, 1.0];
-    let mib = MetaSphere::new(m, r, 1.0, 0, c);
+    let mib = MetaSphere::new(m, r, 0.95, 0, c);
     let (body, _, _) = rode.creator(format!("ball_{:08X}", i).as_str(), mib);
     rode.get_mut(body).expect("fail reg").set_pos(p);
   }
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
-  let mib = MetaSphere::new(0.1, 1.0, 0.5, 0, c);
+  let mib = MetaSphere::new(0.1, 1.0, 0.95, 0, c);
   let (body, _, _) = rode.creator("ball_big", mib);
   rode.get_mut(body).expect("fail reg").set_pos(p);
 
-  let mi = MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0], 0.8,
-    0, [0.0, 1.0, 1.0, 0.8]);
+  let mi = MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0],
+    0.95, 0, [0.0, 1.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("box_big", mi);
   rode.get_mut(body).expect("fail reg").set_pos([-5.0, 5.0, 2.0, 1.0]);
 
-  let micap_0 = MetaCapsule::new(0.1, 0.5, 16.0, 0.5,
-    0, [0.0, 1.0, 0.0, 0.8]);
+  let micap_0 = MetaCapsule::new(0.1, 0.5, 16.0,
+    0.8, 0, [0.0, 1.0, 0.0, 0.8]);
   let (body, _, _) = rode.creator("capsule_0", micap_0);
   rode.get_mut(body).expect("fail reg").set_pos([-8.6, 0.0, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], 1.57));
 
-  let micyl_0 = MetaCylinder::new(0.1, 0.5, 16.0, 0.5,
-    0, [1.0, 0.0, 1.0, 0.8]);
+  let micyl_0 = MetaCylinder::new(0.1, 0.5, 16.0,
+    0.8, 0, [1.0, 0.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("cylinder_0", micyl_0);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, 8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], 1.57));
 
-  let micap_1 = MetaCapsule::new(0.1, 0.5, 16.0, 0.5,
-    0, [0.0, 0.0, 1.0, 0.8]);
+  let micap_1 = MetaCapsule::new(0.1, 0.5, 16.0,
+    0.8, 0, [0.0, 0.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("capsule_1", micap_1);
   rode.get_mut(body).expect("fail reg").set_pos([8.6, 0.0, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], 1.57));
 
-  let micyl_1 = MetaCylinder::new(0.1, 0.5, 16.0, 0.5,
-    0, [0.0, 1.0, 1.0, 0.8]);
+  let micyl_1 = MetaCylinder::new(0.1, 0.5, 16.0,
+    0.8, 0, [0.0, 1.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("cylinder_1", micyl_1);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, -8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], 1.57));
 
   let micmp = MetaComposite::new(
     vec![
-      MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0], 1.0, 0, [0.0, 0.0, 1.0, 0.8]),
-      MetaSphere::new(1.0, 0.5, 1.0, 0, [0.0, 1.0, 0.0, 0.8])],
+      MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0], 0.95, 0, [0.0, 0.0, 1.0, 0.8]),
+      MetaSphere::new(0.3, 0.5, 0.95, 0, [0.0, 1.0, 0.0, 0.8])],
     vec![[0.2, 0.2, 0.2, 1.0], [0.0, 0.0, 0.0, 1.0]],
     vec![dQuaternion::new(), dQuaternion::new()],
-    1.0,
-    0, [1.0, 0.0, 0.0, 0.8]);
+    1.0, 0, [1.0, 0.0, 0.0, 0.8]);
   let (body, _, _) = rode.creator_composite("composite", micmp);
   rode.get_mut(body).expect("fail reg").set_pos([-15.0, 0.0, 2.0, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], 1.57));
