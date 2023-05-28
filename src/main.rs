@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.3")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.4")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -125,7 +125,24 @@ fn start_callback(&mut self) {
   rode.get_mut(body).expect("fail reg").set_pos([0.0, -8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], PIh));
 
-  let micmp = MetaComposite::new(
+  let micmp_0 = MetaComposite::new(
+    vec![
+      MetaBox::new(0.1, [0.5, 0.5, 0.5, 0.0], KRP095, 0, [1.0, 0.0, 0.0, 0.8]),
+      MetaBox::new(0.1, [0.5, 0.5, 0.5, 0.0], KRP095, 0, [0.0, 0.0, 1.0, 0.8]),
+      MetaSphere::new(0.6 / PI, 0.5, KRP095, 0, [0.0, 1.0, 0.0, 0.8]),
+      MetaSphere::new(0.0001, 0.1, KRPnk, 0, [1.0, 0.0, 1.0, 0.8])],
+    vec![QI, QI, QI, QI],
+    vec![
+      [-0.4, -0.4, -0.4, 1.0],
+      [0.4, 0.4, 0.4, 1.0],
+      [0.0, 0.0, 0.0, 1.0],
+      [0.0, 0.0, 0.0, 1.0]],
+    KRPnk, 0, [1.0, 0.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator_composite("composite_0", micmp_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-15.0, -2.0, 2.0, 1.0])
+    .set_quaternion(dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], -PIq3));
+
+  let micmp_1 = MetaComposite::new(
     vec![
       MetaBox::new(0.1, [0.5, 0.5, 0.5, 0.0], KRP095, 0, [1.0, 0.0, 0.0, 0.8]),
       MetaBox::new(0.1, [0.5, 0.5, 0.5, 0.0], KRP095, 0, [0.0, 0.0, 1.0, 0.8]),
@@ -134,9 +151,12 @@ fn start_callback(&mut self) {
       dQuaternion::from_axis_and_angle([-0.707, 0.707, 0.0], PIq),
       dQuaternion::from_axis_and_angle([0.707, -0.707, 0.0], -PIq),
       dQuaternion::new()],
-    vec![[-0.4, -0.4, -0.4, 1.0], [0.4, 0.4, 0.4, 1.0], [0.0, 0.0, 0.0, 1.0]],
+    vec![
+      [-0.4, -0.4, -0.4, 1.0],
+      [0.4, 0.4, 0.4, 1.0],
+      [0.0, 0.0, 0.0, 1.0]],
     KRP100, 0, [1.0, 0.0, 0.0, 0.8]);
-  let (body, _, _) = rode.creator_composite("composite", micmp);
+  let (body, _, _) = rode.creator_composite("composite_1", micmp_1);
   rode.get_mut(body).expect("fail reg").set_pos([-15.0, 0.0, 2.0, 1.0])
     .set_quaternion(dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], -PIq3));
 
