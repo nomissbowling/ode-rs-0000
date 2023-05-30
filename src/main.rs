@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.4")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.7.6")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -96,10 +96,34 @@ fn start_callback(&mut self) {
   let (body, _, _) = rode.creator("ball_big", mib);
   rode.get_mut(body).expect("fail reg").set_pos(p);
 
-  let mi = MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0],
+  let mibox_small = MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0],
     KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
-  let (body, _, _) = rode.creator("box_big", mi);
+  let (body, _, _) = rode.creator("box_small", mibox_small);
   rode.get_mut(body).expect("fail reg").set_pos([-5.0, 5.0, 2.0, 1.0]);
+
+  let mibox_big_0 = MetaBox::new(0.1, [1.0, 5.0, 0.5, 0.0],
+    KRP095, 0, [1.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("box_big_0", mibox_big_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-9.0, -11.0, 2.0, 1.0])
+    .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], PIx));
+
+  let mibox_big_1 = MetaBox::new(0.1, [1.0, 12.0, 0.5, 0.0],
+    KRP095, 0, [0.0, 1.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator("box_big_1", mibox_big_1);
+  rode.get_mut(body).expect("fail reg").set_pos([12.0, -12.0, 2.0, 1.0])
+    .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], -PIq));
+
+  let mibox_big_2 = MetaBox::new(0.1, [1.0, 12.0, 0.5, 0.0],
+    KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("box_big_2", mibox_big_2);
+  rode.get_mut(body).expect("fail reg").set_pos([12.0, 12.0, 2.0, 1.0])
+    .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], PIq));
+
+  let mibox_big_3 = MetaBox::new(0.1, [1.0, 12.0, 0.5, 0.0],
+    KRP095, 0, [0.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("box_big_3", mibox_big_3);
+  rode.get_mut(body).expect("fail reg").set_pos([-12.0, 12.0, 2.0, 1.0])
+    .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], -PIq));
 
   let micap_0 = MetaCapsule::new(0.001, 0.5, 16.0,
     KRP080, 0, [0.0, 1.0, 0.0, 0.8]);
