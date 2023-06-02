@@ -217,6 +217,26 @@ fn start_callback(&mut self) {
   rode.get_mut(body).expect("fail reg").set_pos([-15.0, 0.0, 2.0, 1.0])
     .set_quaternion(dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], -PIq3));
 
+  let mitmv_tetra_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *tmv_tetra },
+    KRP095, 0, [1.0, 0.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator("tmv_tetra_0", mitmv_tetra_0);
+  rode.get_mut(body).expect("fail reg").set_pos([1.0, 3.0, 2.0, 1.0]);
+
+  let mifvp_tetra_0 = MetaConvex::new(false, 0.1, unsafe { &mut *fvp_tetra },
+    KRP095, 0, [0.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_tetra_0", mifvp_tetra_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-1.0, 3.0, 2.0, 1.0]);
+
+  let mitmv_cus_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *tmv_custom },
+    KRP095, 0, [1.0, 0.5, 0.5, 0.8]);
+  let (body, _, _) = rode.creator("tmv_cus_0", mitmv_cus_0);
+  rode.get_mut(body).expect("fail reg").set_pos([1.0, -3.0, 2.0, 1.0]);
+
+  let mifvp_cus_0 = MetaConvex::new(false, 0.1, unsafe { &mut *fvp_custom },
+    KRP095, 0, [0.5, 0.5, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_cus_0", mifvp_cus_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-1.0, -3.0, 2.0, 1.0]);
+
   let dm: dReal = 0.1;
   let lxyz: dVector3 = [10.0, 10.0, 0.05, 0.0];
   let norm: dVector4 = [0.0, 0.0, 1.0, 0.0];
