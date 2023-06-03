@@ -310,7 +310,6 @@ pub fn create_test_bunny(&mut self) {
   rode.get_mut(body).expect("fail reg").set_pos([-4.0, 2.0, 2.0, 1.0]).
     set_quaternion(q);
 
-  unsafe { RecalcFaces(&mut *bunny::fvp as *mut convexfvp); }
   let mifvp_bunny_0 = MetaConvex::new(false, 0.1,
     unsafe { &mut *bunny::fvp },
     KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
