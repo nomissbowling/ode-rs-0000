@@ -100,20 +100,9 @@ pub fn objs_info(&mut self, f: bool, s: &str) {
   }
 }
 
-}
-
-#[impl_sim_derive(draw_geom, near_callback, stop_callback)]
-impl Sim for SimApp {
-
-fn draw_objects(&mut self) {
-  self.objs_info(false, "draw"); // twice (after step)
-  self.super_mut().draw_objects();
-}
-
-fn start_callback(&mut self) {
+/// create test balls
+pub fn create_test_balls(&mut self) {
   let rode = self.super_mut();
-  let t_delta = &mut rode.t_delta;
-  *t_delta = 0.002;
   let m: dReal = 0.8;
   let r: dReal = 0.2;
   for i in 0..16 {
@@ -123,16 +112,30 @@ fn start_callback(&mut self) {
     let (body, _, _) = rode.creator_m(format!("ball_{:08X}", i).as_str(), mib);
     rode.get_mut(body).expect("fail reg").set_pos(p);
   }
+}
+
+/// create test ball big
+pub fn create_test_ball_big(&mut self) {
+  let rode = self.super_mut();
   let c: dVector4 = [1.0, 1.0, 0.0, 0.8];
   let p: dVector3 = [0.0, 0.0, 10.0, 1.0];
   let mib = MetaSphere::new(0.08 / (125.0 * PIt4), 1.0, KRP095, 0, c);
   let (body, _, _) = rode.creator("ball_big", mib);
   rode.get_mut(body).expect("fail reg").set_pos(p);
+}
 
+/// create test box small
+pub fn create_test_box_small(&mut self) {
+  let rode = self.super_mut();
   let mibox_small = MetaBox::new(0.1, [1.0, 1.0, 1.0, 0.0],
     KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("box_small", mibox_small);
   rode.get_mut(body).expect("fail reg").set_pos([-5.0, 5.0, 2.0, 1.0]);
+}
+
+/// create test box frames
+pub fn create_test_box_frames(&mut self) {
+  let rode = self.super_mut();
 
   let mibox_big_0 = MetaBox::new(0.1, [1.0, 5.0, 0.5, 0.0],
     KRP095, 0, [1.0, 0.0, 1.0, 0.8]);
@@ -157,6 +160,11 @@ fn start_callback(&mut self) {
   let (body, _, _) = rode.creator("box_big_3", mibox_big_3);
   rode.get_mut(body).expect("fail reg").set_pos([-12.0, 12.0, 2.0, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], -PIq));
+}
+
+/// create test capsule frames
+pub fn create_test_capsule_frames(&mut self) {
+  let rode = self.super_mut();
 
   let micap_0 = MetaCapsule::new(0.001, 0.5, 16.0,
     KRP080, 0, [0.0, 1.0, 0.0, 0.8]);
@@ -164,23 +172,33 @@ fn start_callback(&mut self) {
   rode.get_mut(body).expect("fail reg").set_pos([-8.6, 0.0, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh));
 
+  let micap_1 = MetaCapsule::new(0.001, 0.5, 16.0,
+    KRP080, 0, [0.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("capsule_1", micap_1);
+  rode.get_mut(body).expect("fail reg").set_pos([8.6, 0.0, 1.5, 1.0])
+    .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh));
+}
+
+/// create test cylinder frames
+pub fn create_test_cylinder_frames(&mut self) {
+  let rode = self.super_mut();
+
   let micyl_0 = MetaCylinder::new(0.001, 0.5, 16.0,
     KRP080, 0, [1.0, 0.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("cylinder_0", micyl_0);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, 8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], PIh));
 
-  let micap_1 = MetaCapsule::new(0.001, 0.5, 16.0,
-    KRP080, 0, [0.0, 0.0, 1.0, 0.8]);
-  let (body, _, _) = rode.creator("capsule_1", micap_1);
-  rode.get_mut(body).expect("fail reg").set_pos([8.6, 0.0, 1.5, 1.0])
-    .set_rot(dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh));
-
   let micyl_1 = MetaCylinder::new(0.001, 0.5, 16.0,
     KRP080, 0, [0.0, 1.0, 1.0, 0.8]);
   let (body, _, _) = rode.creator("cylinder_1", micyl_1);
   rode.get_mut(body).expect("fail reg").set_pos([0.0, -8.6, 1.5, 1.0])
     .set_rot(dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], PIh));
+}
+
+/// create test composite
+pub fn create_test_composite(&mut self) {
+  let rode = self.super_mut();
 
   let micmp_0 = MetaComposite::new(
     vec![
@@ -196,7 +214,7 @@ fn start_callback(&mut self) {
       [0.0, 0.0, 0.0, 1.0]],
     KRPnk, 0, [1.0, 0.0, 0.0, 0.8]);
   let (body, _, _) = rode.creator_composite("composite_0", micmp_0);
-  rode.get_mut(body).expect("fail reg").set_pos([-15.0, -2.0, 2.0, 1.0])
+  rode.get_mut(body).expect("fail reg").set_pos([-12.0, -2.0, 2.0, 1.0])
     .set_quaternion(dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], -PIq3));
 
   let micmp_1 = MetaComposite::new(
@@ -214,29 +232,96 @@ fn start_callback(&mut self) {
       [0.0, 0.0, 0.0, 1.0]],
     KRP100, 0, [1.0, 0.0, 0.0, 0.8]);
   let (body, _, _) = rode.creator_composite("composite_1", micmp_1);
-  rode.get_mut(body).expect("fail reg").set_pos([-15.0, 0.0, 2.0, 1.0])
+  rode.get_mut(body).expect("fail reg").set_pos([-12.0, 0.0, 2.0, 1.0])
     .set_quaternion(dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], -PIq3));
+}
 
-  let mitmv_tetra_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *tmv_tetra },
-    KRP095, 0, [1.0, 0.0, 0.0, 0.8]);
-  let (body, _, _) = rode.creator("tmv_tetra_0", mitmv_tetra_0);
-  rode.get_mut(body).expect("fail reg").set_pos([1.0, 3.0, 2.0, 1.0]);
+/// create test custom
+pub fn create_test_custom(&mut self) {
+  let rode = self.super_mut();
 
-  let mifvp_tetra_0 = MetaConvex::new(false, 0.1, unsafe { &mut *fvp_tetra },
-    KRP095, 0, [0.0, 0.0, 1.0, 0.8]);
-  let (body, _, _) = rode.creator("fvp_tetra_0", mifvp_tetra_0);
-  rode.get_mut(body).expect("fail reg").set_pos([-1.0, 3.0, 2.0, 1.0]);
-
-  let mitmv_cus_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *tmv_custom },
+  let mitmv_cus_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *custom::tmv },
     KRP095, 0, [1.0, 0.5, 0.5, 0.8]);
   let (body, _, _) = rode.creator("tmv_cus_0", mitmv_cus_0);
-  rode.get_mut(body).expect("fail reg").set_pos([1.0, -3.0, 2.0, 1.0]);
+  rode.get_mut(body).expect("fail reg").set_pos([-13.0, 6.0, 2.0, 1.0]);
 
-  let mifvp_cus_0 = MetaConvex::new(false, 0.1, unsafe { &mut *fvp_custom },
+  let mifvp_cus_0 = MetaConvex::new(false, 0.1, unsafe { &mut *custom::fvp },
     KRP095, 0, [0.5, 0.5, 1.0, 0.8]);
   let (body, _, _) = rode.creator("fvp_cus_0", mifvp_cus_0);
-  rode.get_mut(body).expect("fail reg").set_pos([-1.0, -3.0, 2.0, 1.0]);
+  rode.get_mut(body).expect("fail reg").set_pos([-13.0, 8.0, 2.0, 1.0]);
+}
 
+/// create test tetra
+pub fn create_test_tetra(&mut self) {
+  let rode = self.super_mut();
+
+  let mitmv_tetra_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *tetra::tmv },
+    KRP095, 0, [1.0, 0.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator("tmv_tetra_0", mitmv_tetra_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-13.0, -6.0, 2.0, 1.0]);
+
+  let mifvp_tetra_0 = MetaConvex::new(false, 0.1, unsafe { &mut *tetra::fvp },
+    KRP095, 0, [0.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_tetra_0", mifvp_tetra_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-13.0, -8.0, 2.0, 1.0]);
+}
+
+/// create test cube
+pub fn create_test_cube(&mut self) {
+  let rode = self.super_mut();
+
+  let mitmv_cube_0 = MetaTriMesh::new(false, 0.1, unsafe { &mut *cube::tmv },
+    KRP095, 0, [1.0, 1.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator("tmv_cube_0", mitmv_cube_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-7.0, 1.0, 2.0, 1.0]);
+
+  let mifvp_cube_0 = MetaConvex::new(false, 0.1, unsafe { &mut *cube::fvp },
+    KRP095, 0, [1.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_cube_0", mifvp_cube_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-7.0, -1.0, 2.0, 1.0]);
+}
+
+/// create test icosahedron
+pub fn create_test_icosahedron(&mut self) {
+  let rode = self.super_mut();
+
+  let mitmv_icosahedron_0 = MetaTriMesh::new(false, 0.1,
+    unsafe { &mut *icosahedron::tmv },
+    KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("tmv_icosahedron_0", mitmv_icosahedron_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-7.0, 3.0, 2.0, 1.0]);
+
+  let mifvp_icosahedron_0 = MetaConvex::new(false, 0.1,
+    unsafe { &mut *icosahedron::fvp },
+    KRP095, 0, [1.0, 1.0, 0.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_icosahedron_0", mifvp_icosahedron_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-7.0, -3.0, 2.0, 1.0]);
+}
+
+/// create test bunny
+pub fn create_test_bunny(&mut self) {
+  let rode = self.super_mut();
+  let q = dQuaternion::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
+
+  let mitmv_bunny_0 = MetaTriMesh::new(false, 0.1,
+    unsafe { &mut *bunny::tmv },
+    KRP095, 0, [1.0, 0.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("tmv_bunny_0", mitmv_bunny_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-4.0, 2.0, 2.0, 1.0]).
+    set_quaternion(q);
+
+  unsafe { RecalcFaces(&mut *bunny::fvp as *mut convexfvp); }
+  let mifvp_bunny_0 = MetaConvex::new(false, 0.1,
+    unsafe { &mut *bunny::fvp },
+    KRP095, 0, [0.0, 1.0, 1.0, 0.8]);
+  let (body, _, _) = rode.creator("fvp_bunny_0", mifvp_bunny_0);
+  rode.get_mut(body).expect("fail reg").set_pos([-4.0, -2.0, 2.0, 1.0]).
+    set_quaternion(q);
+}
+
+/// create test plane
+pub fn create_test_plane(&mut self) {
+  let rode = self.super_mut();
   let dm: dReal = 0.1;
   let lxyz: dVector3 = [10.0, 10.0, 0.05, 0.0];
   let norm: dVector4 = [0.0, 0.0, 1.0, 0.0];
@@ -258,8 +343,51 @@ fn start_callback(&mut self) {
     // .set_quaternion(dQuaternion::new());
     // .set_quaternion(q);
     .set_rot(q.to_R());
+}
 
-  rode.start_callback();
+}
+
+#[impl_sim_derive(draw_geom, near_callback, stop_callback)]
+impl Sim for SimApp {
+
+fn draw_objects(&mut self) {
+  self.objs_info(false, "draw"); // twice (after step)
+  self.super_mut().draw_objects();
+}
+
+fn start_callback(&mut self) {
+  let t_delta = &mut self.super_mut().t_delta;
+  *t_delta = 0.002;
+  self.create_test_balls();
+  self.create_test_ball_big();
+  self.create_test_box_small();
+  self.create_test_box_frames();
+  self.create_test_capsule_frames();
+  self.create_test_cylinder_frames();
+  self.create_test_composite();
+  self.create_test_custom();
+  self.create_test_tetra();
+  self.create_test_cube();
+  self.create_test_icosahedron();
+  self.create_test_bunny();
+/*
+  self.create_TmBall();
+  self.create_Slope();
+  self.create_SphereApple();
+  self.create_SphereBall(); self.create_SphereRoll();
+  self.create_UBall(); self.create_LUBall(); self.create_RUBall();
+  self.create_VBall(); self.create_LVBall(); self.create_RVBall();
+  self.create_IHBall(); self.create_IIBall();
+  self.create_TmTetra(); self.create_Tetra();
+  self.create_TmCube(); self.create_Cube();
+  self.create_TmIcosahedron(); self.create_Icosahedron();
+  self.create_TmBunny(); self.create_Bunny();
+  self.create_TmCustom(); self.create_Custom();
+  self.create_TmBunny2(); self.create_TmBunny3();
+  self.create_Bunny2(); self.create_Bunny3();
+*/
+  self.create_test_plane();
+  self.super_mut().start_callback();
 }
 
 fn step_callback(&mut self, pause: i32) {
