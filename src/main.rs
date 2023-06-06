@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.8.2")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.8.3")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -304,7 +304,7 @@ pub fn create_tmball(&mut self) {
   let (body, _, _) = self.super_mut().creator_composite("tmball", mi_tmball);
   let p = dQuaternion::from_axis_and_angle([0.0, 0.0, 1.0], PIh);
   let q = dQuaternion::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
-  let o = dQuaternion::multiply0(&p, &q);
+  let o = dQuaternion::multiply0(p, q);
   self.set_pos_Q(body, [-29.0, -3.0, 3.0, 1.0], o);
 }
 
@@ -320,7 +320,7 @@ pub fn create_slope(&mut self) {
   let (body, _, _) = self.super_mut().creator_composite("slope", mi_slope);
   let p = dQuaternion::from_axis_and_angle([0.0, 1.0, 0.0], PIx / 3.0);
   let q = dQuaternion::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
-  let o = dQuaternion::multiply0(&p, &q);
+  let o = dQuaternion::multiply0(p, q);
   self.set_pos_Q(body, [-28.5, 0.0, 1.2, 1.0], o);
 }
 
@@ -565,8 +565,9 @@ pub fn create_tmbunny2(&mut self) {
   let mi_tmbunny2 = MetaTriMesh::new(false, 1.0, unsafe { &mut *bunny::tmv },
     KRP095, 0, [0.8, 0.2, 0.6, 1.0]);
   let (body, _, _) = self.super_mut().creator("tmbunny2", mi_tmbunny2);
-  self.set_pos_R(body, [-18.0, -3.5, 2.0, 1.0],
-    dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh));
+  let m = dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
+  let n = dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], PIh);
+  self.set_pos_R(body, [-18.0, -5.0, 2.0, 1.0], dMatrix3::multiply0_333(n, m));
 }
 
 /// create
@@ -574,8 +575,9 @@ pub fn create_tmbunny3(&mut self) {
   let mi_tmbunny3 = MetaTriMesh::new(false, 1.0, unsafe { &mut *bunny::tmv },
     KRP095, 0, [0.8, 0.2, 0.6, 1.0]);
   let (body, _, _) = self.super_mut().creator("tmbunny3", mi_tmbunny3);
-  self.set_pos_R(body, [-18.0, -4.0, 2.0, 1.0],
-    dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh));
+  let m = dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
+  let n = dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], PIh);
+  self.set_pos_R(body, [-18.0, -6.0, 2.0, 1.0], dMatrix3::multiply0_333(m, n));
 }
 
 /// create
@@ -583,7 +585,9 @@ pub fn create_bunny2(&mut self) {
   let mi_bunny2 = MetaConvex::new(false, 1.0, unsafe { &mut *bunny::fvp },
     KRP095, 0, [0.8, 0.4, 0.8, 1.0]);
   let (body, _, _) = self.super_mut().creator("bunny2", mi_bunny2);
-  self.set_pos_R(body, [-18.0, -2.5, 2.0, 1.0], M3I);
+  let m = dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
+  let n = dMatrix3::from_axis_and_angle([0.0, 0.0, 1.0], PIh);
+  self.set_pos_R(body, [-18.0, -3.0, 2.0, 1.0], dMatrix3::multiply0_333(n, m));
 }
 
 /// create
@@ -591,7 +595,9 @@ pub fn create_bunny3(&mut self) {
   let mi_bunny3 = MetaConvex::new(false, 1.0, unsafe { &mut *bunny::fvp },
     KRP095, 0, [0.8, 0.4, 0.8, 1.0]);
   let (body, _, _) = self.super_mut().creator("bunny3", mi_bunny3);
-  self.set_pos_R(body, [-18.0, -3.0, 2.0, 1.0], M3I);
+  let m = dMatrix3::from_axis_and_angle([1.0, 0.0, 0.0], PIh);
+  let n = dMatrix3::from_axis_and_angle([0.0, 1.0, 0.0], PIh);
+  self.set_pos_R(body, [-18.0, -4.0, 2.0, 1.0], dMatrix3::multiply0_333(m, n));
 }
 
 }
