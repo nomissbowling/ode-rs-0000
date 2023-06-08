@@ -363,7 +363,8 @@ pub fn create_slope(&mut self) {
 
 /// create x, y on the bunny
 pub fn create_sphere_apple(&mut self) {
-  let mi_apple = MetaSphere::new(0.1, 0.2, KRPnk, 0, [0.8, 0.4, 0.4, 0.8]);
+  let krp = Krp::new(true, false, true, 0.95);
+  let mi_apple = MetaSphere::new(0.1, 0.2, krp, 0, [0.8, 0.4, 0.4, 0.8]);
   let (body, _, _) = self.super_mut().creator("apple", mi_apple);
   self.set_pos_Q(body, [-15.15, 0.31, 2.5, 1.0], QI);
 }
@@ -689,6 +690,34 @@ fn step_callback(&mut self, pause: i32) {
 
 fn command_callback(&mut self, cmd: i32) {
   match cmd as u8 as char {
+    ' ' => {
+      let k = "apple";
+      match self.super_mut().find_mut(k.to_string()) {
+        Err(e) => { println!("{}", e); },
+        Ok(obg) => {
+          if obg.is_enabled() { obg.disable(); } else { obg.enable(); }
+        }
+      }
+    },
+    't' => {
+      for k in ["apple", "roll", "tmball", "cube", "icosahedron", "custom"] {
+        match self.super_mut().find_mut(k.to_string()) {
+          Err(e) => { println!("{}", e); },
+          Ok(obg) => {
+            obg.set_torque([-0.5, 0.0, 0.0]);
+          }
+        }
+      }
+      for k in ["ball", "tmbunny", "bunny", "tmtetra", "tetra",
+        "tmcube", "tmicosahedron", "tmcustom"] {
+        match self.super_mut().find_mut(k.to_string()) {
+          Err(e) => { println!("{}", e); },
+          Ok(obg) => {
+            obg.set_torque([0.0, 0.0, 0.5]);
+          }
+        }
+      }
+    },
     'o' => {
       let k = "ball_big";
       match self.super_mut().find_mut(k.to_string()) {
