@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.8.4")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.9.0")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -663,11 +663,13 @@ fn command_callback(&mut self, cmd: i32) {
       }
     },
     't' => {
-      for k in ["apple", "roll", "tmball", "cube", "icosahedron", "custom"] {
+      for k in ["ball_big", "box_small",
+        "apple", "roll", "tmball", "cube", "icosahedron", "custom"] {
         match self.super_mut().find_mut(k.to_string()) {
           Err(e) => { println!("{}", e); },
           Ok(obg) => {
-            obg.set_torque([-0.5, 0.0, 0.0]);
+            // obg.add_rel_torque([-0.5, 0.0, 0.0]);
+            obg.add_rel_force_rel([-0.5, 0.0, 0.0], [0.0, 0.0, 0.5]);
           }
         }
       }
@@ -676,7 +678,8 @@ fn command_callback(&mut self, cmd: i32) {
         match self.super_mut().find_mut(k.to_string()) {
           Err(e) => { println!("{}", e); },
           Ok(obg) => {
-            obg.set_torque([0.0, 0.0, 0.5]);
+            // obg.add_rel_torque([0.0, 0.0, 0.5]);
+            obg.add_rel_force_rel([0.0, 0.0, 0.5], [0.5, 0.0, 0.0]);
           }
         }
       }
