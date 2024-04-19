@@ -1,6 +1,6 @@
 [package]
 name = "ode-rs-0000"
-version = "0.9.0" # change with html_root_url in main.rs
+version = "0.9.1" # change with html_root_url in main.rs
 edition = "2021"
 authors = ["nomissbowling <nomissbowling@yahoo.co.jp>"]
 
@@ -27,10 +27,12 @@ asciiz = { version = "0.1" }
 # asciiz = { version = "0.1", git = "https://github.com/nomissbowling/asciiz.git", package = "asciiz" }
 # asciiz = { path = "../asciiz" } # libasciiz.rlib asciiz::u8z
 
-oyk = { version = "0.9.0" }
+oyk = { version = "0.9.1" }
 # oyk = { version = "0.9", git = "https://github.com/nomissbowling/oyk.git", package = "oyk" }
 # oyk = { path = "../oyk" } # liboyk.rlib oyk::ode
 
+home = { version = "=0.5.5" } # cc(1.0.79)/bindgen(0.65.1) requires home(0.5.5)
+
 [build-dependencies]
-cc = "1.0.79"
-bindgen = "0.65.1"
+cc = "=1.0.79"
+bindgen = "=0.65.1"
