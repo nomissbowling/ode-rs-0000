@@ -1,9 +1,9 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.9.1")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.10.1")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
 
-  dependencies asciiz oyk
+  dependencies asciiz ode-rs
 
   in the current directory
     drawstuff.dll
@@ -13,8 +13,8 @@
     libwinpthread-1.dll
 */
 
-use oyk::colors::*;
-use oyk::ode::*;
+use ode_rs::colors::*;
+use ode_rs::ode::*;
 
 use std::ffi::{c_void}; // used by impl_sim_fn
 use impl_sim::{impl_sim_fn, impl_sim_derive};

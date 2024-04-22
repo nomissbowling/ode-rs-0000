@@ -1,15 +1,16 @@
 ode-rs-0000
 ===========
 
-ODE (Open Dynamics Engine) bindings for Rust yaw kinetics samples
+ODE Open Dynamics Engine for Rust samples
 
-[oyk_512x424]: https://github.com/nomissbowling/oyk/blob/master/img/oyk_512x424.png?raw=true
-![ODE][oyk_512x424]
- * https://github.com/nomissbowling/oyk/blob/master/img/oyk_512x424.png?raw=true
 
-[oyk_512x100]: https://github.com/nomissbowling/oyk/blob/master/img/oyk_512x100.png?raw=true
-![ODE][oyk_512x100]
- * https://github.com/nomissbowling/oyk/blob/master/img/oyk_512x100.png?raw=true
+[ode_512x424]: https://github.com/nomissbowling/ode-rs/blob/master/img/ode_512x424.png?raw=true
+![ODE][ode_512x424]
+ * https://github.com/nomissbowling/ode-rs/blob/master/img/ode_512x424.png?raw=true
+
+[ode_512x100]: https://github.com/nomissbowling/ode-rs/blob/master/img/ode_512x100.png?raw=true
+![ODE][ode_512x100]
+ * https://github.com/nomissbowling/ode-rs/blob/master/img/ode_512x100.png?raw=true
 
 Now this crate is tested on ode-0.16.2 dll version.
 
@@ -21,9 +22,17 @@ ode.dll drawstuff.dll for x64 Windows binary compiled with -DdDOUBLE by mingw
 Requirements
 ------------
 
-- [ https://github.com/nomissbowling/oyk ]( https://github.com/nomissbowling/oyk )
-- [ https://github.com/nomissbowling/asciiz ]( https://github.com/nomissbowling/asciiz )
 - [ ode and drawstuff ]( https://ode.org/ )
+- [https://crates.io/crates/ode-rs](https://crates.io/crates/ode-rs)
+- [https://github.com/nomissbowling/ode-rs](https://github.com/nomissbowling/ode-rs)
+- [https://crates.io/crates/oyk](https://crates.io/crates/oyk)
+- [https://github.com/nomissbowling/oyk](https://github.com/nomissbowling/oyk)
+- [https://crates.io/crates/ode-base](https://crates.io/crates/ode-base)
+- [https://github.com/nomissbowling/ode-base](https://github.com/nomissbowling/ode-base)
+- [https://crates.io/crates/drawstuff](https://crates.io/crates/drawstuff)
+- [https://github.com/nomissbowling/drawstuff](https://github.com/nomissbowling/drawstuff)
+- [https://crates.io/crates/asciiz](https://crates.io/crates/asciiz)
+- [https://github.com/nomissbowling/asciiz](https://github.com/nomissbowling/asciiz)
 
 to build dll
 
@@ -42,7 +51,7 @@ in the running directory
 edit build.rs (when need)
 
 ```rust
-println!("cargo:rustc-link-search=<YOUR_LINK_LIB_PATH>/oyk/ode/lib");
+println!("cargo:rustc-link-search=<YOUR_LINK_LIB_PATH>/ode_rs/ode/lib");
 ```
 
 
@@ -50,8 +59,8 @@ Samples
 -------
 
 ```rust
-use oyk::colors::*;
-use oyk::ode::*;
+use ode_rs::colors::*;
+use ode_rs::ode::*;
 
 use std::ffi::{c_void}; // used by impl_sim_fn
 use impl_sim::{impl_sim_fn, impl_sim_derive};
