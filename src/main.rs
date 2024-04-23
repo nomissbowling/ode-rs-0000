@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/0.10.1")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.1")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -13,6 +13,7 @@
     libwinpthread-1.dll
 */
 
+use ode_rs::ds::Drawstuff;
 use ode_rs::colors::*;
 use ode_rs::ode::*;
 
@@ -713,7 +714,7 @@ fn command_callback(&mut self, cmd: i32) {
 } // impl Sim for SimApp
 
 fn main() {
-  ODE::open();
+  ODE::open(Drawstuff::new());
   ODE::sim_loop(
     640, 480, // 800, 600,
     Some(Box::new(SimApp{cnt: 0})),

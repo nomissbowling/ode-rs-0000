@@ -59,6 +59,7 @@ Samples
 -------
 
 ```rust
+use ode_rs::ds::Drawstuff;
 use ode_rs::colors::*;
 use ode_rs::ode::*;
 
@@ -759,7 +760,7 @@ fn command_callback(&mut self, cmd: i32) {
 } // impl Sim for SimApp
 
 fn main() {
-  ODE::open();
+  ODE::open(Drawstuff::new());
   ODE::sim_loop(
     640, 480, // 800, 600,
     Some(Box::new(SimApp{cnt: 0})),
