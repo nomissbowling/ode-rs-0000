@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.1")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.3")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
