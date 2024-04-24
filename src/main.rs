@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.3")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.4")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -19,6 +19,14 @@ use ode_rs::ode::*;
 
 use std::ffi::{c_void}; // used by impl_sim_fn
 use impl_sim::{impl_sim_fn, impl_sim_derive};
+
+const APP_HELP: &str = "
+  application defined key set (this app)
+  ' ': apple ball drop
+  't': torque
+  'o': big ball info
+  'b': test mut (big ball)
+  'a': test cmd (all info)";
 
 pub struct SimApp {
   cnt: usize
@@ -705,6 +713,9 @@ fn command_callback(&mut self, cmd: i32) {
     },
     'a' => {
       self.objs_info(true, "cmd");
+    },
+    '?' => {
+      println!("{}", APP_HELP);
     },
     _ => {}
   }

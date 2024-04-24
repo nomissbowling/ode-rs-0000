@@ -78,7 +78,7 @@ fn main() {
   }
 */
 
-  println!("cargo:rustc-link-search=../oyk/ode/lib");
+  println!("cargo:rustc-link-search=./ode/lib");
   println!("cargo:rustc-link-lib=drawstuff");
   println!("cargo:rustc-link-lib=ode");
 }

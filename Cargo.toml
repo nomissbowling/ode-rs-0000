@@ -1,6 +1,6 @@
 [package]
 name = "ode-rs-0000"
-version = "1.0.3" # change with html_root_url in main.rs
+version = "1.0.4" # change with html_root_url in main.rs
 edition = "2021"
 authors = ["nomissbowling <nomissbowling@yahoo.co.jp>"]
 
