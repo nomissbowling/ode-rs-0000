@@ -1,4 +1,4 @@
-#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.0.4")]
+#![doc(html_root_url = "https://docs.rs/ode-rs-0000/1.2.1")]
 /*
   cc-rs https://crates.io/crates/cc
   bindgen https://crates.io/crates/bindgen
@@ -335,7 +335,7 @@ pub fn create_slope(&mut self) {
 
 /// create x, y on the bunny
 pub fn create_sphere_apple(&mut self) {
-  let krp = Krp::new(true, false, true, 0.95);
+  let krp = Krp::new(true, false, true, 0.95, 0.1);
   let mi_apple = MetaSphere::new(0.1, 0.2, krp, 0, [0.8, 0.4, 0.4, 0.8]);
   let (body, _, _) = self.super_mut().creator("apple", mi_apple);
   self.set_pos_Q(body, [-15.15, 0.31, 2.5, 1.0], QI);
@@ -725,7 +725,15 @@ fn command_callback(&mut self, cmd: i32) {
 } // impl Sim for SimApp
 
 fn main() {
-  ODE::open(Drawstuff::new());
+  // default values
+  // drawstuff: select drawstuff module
+  // delta: dReal 0.002
+  // QuickStepW: over_relaxation: dReal 1.3
+  // QuickStepNumIterations: usize (c_int) 20
+  // ContactMaxCorrectingVel: vel: dReal 1e-3 (1e-3, 1e-2, 0.0 or inf, ...)
+  // ContactSurfaceLayer: depth: dReal 0.0
+  // num_contact: 256
+  ODE::open(Drawstuff::new(), 0.002, 1.3, 20, 1e-3, 0.0, 256);
   ODE::sim_loop(
     640, 480, // 800, 600,
     Some(Box::new(SimApp{cnt: 0})),
